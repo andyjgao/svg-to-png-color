@@ -1,4 +1,4 @@
-from flask import Flask, send_file, request, after_this_request
+from flask import Flask, send_file, request, after_this_request, render_template
 import requests
 import os
 from flask_restful import Resource, Api, reqparse
@@ -7,7 +7,11 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class HelloWorld(Resource):
+@app.route('/')
+def read_me():
+    return render_template('readme.html')
+
+class SvgToPng(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('R', type=str, location='args')
@@ -29,7 +33,7 @@ class HelloWorld(Resource):
             return response
         return send_file('image.png',mimetype='image/png')
 
-api.add_resource(HelloWorld, '/')
+api.add_resource(SvgToPng, '/image')
 
 if __name__ == "__main__":
     app.run(port=6969, debug=True)
