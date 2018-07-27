@@ -26,7 +26,7 @@ class SvgToPng(Resource):
         response = r.json()
         image_url = response['image']['bare']
         cairosvg.svg2png(
-            url= image_url, write_to='image.png')
+            url= image_url, write_to='image.png', scale= 2)
         @after_this_request
         def remove_file(response):
             os.remove('./image.png')
